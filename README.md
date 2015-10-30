@@ -1,2 +1,2 @@
-# csst-tca
-CSS Tricks Theme Customization API
+# csst-tmd
+CSS-Tricks Theme Mod Demo

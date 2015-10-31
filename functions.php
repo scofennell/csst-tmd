@@ -19,11 +19,11 @@ define( 'CSST_TMD_VERSION', '1.0' );
 
 // A constant to define the paths to our plugin folders.
 define( 'CSST_TMD_FILE', __FILE__ );
-define( 'CSST_TMD_PATH', trailingslashit( get_template_directory( LXB_AF_FILE ) ) );
-define( 'CSST_TMD_INC_PATH', LXB_AF_PATH . 'inc/' );
+define( 'CSST_TMD_PATH', trailingslashit( get_template_directory( CSST_TMD_FILE ) ) );
+define( 'CSST_TMD_INC_PATH', CSST_TMD_PATH . 'inc/' );
 
 // A constant to define the urls to our plugin folders.
-define( 'CSST_TMD_URL', trailingslashit( get_template_directory_uri( LXB_AF_FILE ) ) );
+define( 'CSST_TMD_URL', trailingslashit( get_template_directory_uri( CSST_TMD_FILE ) ) );
 define( 'CSST_TMD_INC_URL', CSST_TMD_URL . 'inc/' );
 
 /**
@@ -31,15 +31,11 @@ define( 'CSST_TMD_INC_URL', CSST_TMD_URL . 'inc/' );
  */
 
 // A class for affecting admin menus.
-require_once( LXB_AF_INC_PATH . 'class.setup.php' );
+require_once( CSST_TMD_INC_PATH . 'class.setup.php' );
 
-require_once( LXB_AF_INC_PATH . 'class.customizer.php' );
+require_once( CSST_TMD_INC_PATH . 'class.customizer.php' );
 
-require_once( LXB_AF_INC_PATH . 'class.setting.php' );
-
-require_once( LXB_AF_INC_PATH . 'class.setting.body_background_color.php' );
-
-require_once( LXB_AF_INC_PATH . 'class.setting.body_color.php' );
+require_once( CSST_TMD_INC_PATH . 'class.theme-mods.php' );
 
 /*
 function twentysixteen_setup() {

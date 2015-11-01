@@ -19,7 +19,7 @@
 
 	</head>
 
-	<body>
+	<body <?php body_class(); ?>>
 
 		<div class='csst_tmd-page'>
 

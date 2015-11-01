@@ -18,10 +18,10 @@ class CSST_TMD_Mods {
 				'priority'    => 10,
 				'sections'    => array(
 
-					'styles' => array(
+					'colors' => array(
 
-						'title'       => esc_html__( 'Styles', 'csst_tmd' ),
-						'description' => esc_html__( 'Styles for the Page Body', 'csst_tmd' ),
+						'title'       => esc_html__( 'Colors', 'csst_tmd' ),
+						'description' => esc_html__( 'Colors for the Page Body', 'csst_tmd' ),
 						'priority'    => 10,
 						'settings'    => array(
 
@@ -33,12 +33,15 @@ class CSST_TMD_Mods {
 								'default'              => 'orange',
 								'sanitize_callback'    => 'sanitize_text_field',
 								'sanitize_js_callback' => 'sanitize_text_field',
-								'css'         => array(
+								'tinymce_css'          => TRUE,
+								'css'                  => array(
 									array(
-										'logic'     => 'only',
-										'mediatype' => 'screen',
 										'selector'  => 'body',
 										'property'  => 'background-color',
+										'queries'   => array(
+											'max-width'   => '800px',
+											'orientation' => 'landscape',
+										),
 									),
 								),
 							),
@@ -53,10 +56,38 @@ class CSST_TMD_Mods {
 								'sanitize_js_callback' => 'sanitize_text_field',
 								'css'                  => array(
 									array(
-										'logic'     => 'only',
-										'mediatype' => 'screen',
 										'selector'  => 'body',
 										'property'  => 'color',
+									),
+								),
+							),
+
+						),
+
+					),
+
+					'layout' => array(
+
+						'title'       => esc_html__( 'Layout Options', 'csst_tmd' ),
+						'description' => esc_html__( 'Layout Options the Page Body', 'csst_tmd' ),
+						'priority'    => 10,
+						'settings'    => array(
+
+							'max-width' => array(
+								'type'                 => 'text',
+								'label'                => esc_html__( 'Body Max Width', 'csst_tmd' ),
+								'description'          => esc_html( 'The max-width for the body element.', 'csst_tmd' ),
+								'priority'             => 10,
+								'default'              => FALSE,
+								'sanitize_callback'    => array( $this, 'sanitize_linear_css' ),
+								'sanitize_js_callback' => array( $this, 'sanitize_linear_css' ),
+								'css'                  => array(
+									array(
+										'selector'  => 'body',
+										'property'  => 'max-width',
+										'queries'   => array(
+											'min-width' => '400px',
+										),
 									),
 								),
 							),
@@ -69,6 +100,14 @@ class CSST_TMD_Mods {
 
 			),
 		);
+
+		return $out;
+
+	}
+
+	public function sanitize_linear_css( $string ) {
+
+		$out = preg_replace( '/[^a-zA-Z0-9 +-_.()% ]/', '', $string );
 
 		return $out;
 

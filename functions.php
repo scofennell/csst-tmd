@@ -37,6 +37,8 @@ require_once( CSST_TMD_INC_PATH . 'class.customizer.php' );
 
 require_once( CSST_TMD_INC_PATH . 'class.theme-mods.php' );
 
+require_once( CSST_TMD_INC_PATH . 'class.tiny-mce.php' );
+
 /*
 function twentysixteen_setup() {
 	load_theme_textdomain( 'csst-tmd', get_template_directory() . '/languages' );

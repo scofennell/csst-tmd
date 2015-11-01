@@ -24,16 +24,19 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * 1.0. Frame
  */
 body {
-	margin: 0;
+	margin: 0 auto;
 	color: #000;
 	background: #fff;
 }
 
 .csst_tmd-page {
-	max-width: 50em;
-	margin: 2em auto;
-	background: rgba( 0, 0, 0, .05 );
+	background: rgba( 0, 0, 0, .15 );
 	padding: 1em 2em;
 	text-align: center;
 	border: .25em solid #000;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
 }

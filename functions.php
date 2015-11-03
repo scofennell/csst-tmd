@@ -30,10 +30,15 @@ define( 'CSST_TMD_INC_URL', CSST_TMD_URL . 'inc/' );
  * Require files for both wp-admin & front end.
  */
 
-// A class for affecting admin menus.
-require_once( CSST_TMD_INC_PATH . 'class.setup.php' );
+require_once( CSST_TMD_INC_PATH . 'class.body-classes.php' );
 
 require_once( CSST_TMD_INC_PATH . 'class.customizer.php' );
+
+require_once( CSST_TMD_INC_PATH . 'class.enqueue.php' );
+
+require_once( CSST_TMD_INC_PATH . 'class.formatting.php' );
+
+require_once( CSST_TMD_INC_PATH . 'class.inline-styles.php' );
 
 require_once( CSST_TMD_INC_PATH . 'class.theme-mods.php' );
 

@@ -29,24 +29,26 @@
 				// Find the head of tinyMCE.
 				var head = jQuery( doc ).find( 'head' );
 
-				// For each customizer setting...
-				for( setting in CSST_TMD_Customizer ) {
-		
-					console.log( setting );
+				console.log( CSST_TMD_Tiny_MCE );
 
+				// For each customizer setting...
+				for( setting in CSST_TMD_Tiny_MCE ) {
+		
 					// For each rule in this setting, carve out the selector, property and value, in order to build a CSS rule.
-					for( rule in CSST_TMD_Customizer[ setting ] ) {
+					//for( rule in CSST_TMD_Tiny_MCE[ setting ] ) {
 
 						// It's just a numerically indexed array.
-						var selector = CSST_TMD_Customizer[ setting ][ rule ][ 0 ];
-						var prop     = CSST_TMD_Customizer[ setting ][ rule ][ 1 ];
-						var value    = CSST_TMD_Customizer[ setting ][ rule ][ 2 ];
+						var selector = CSST_TMD_Tiny_MCE[ setting ][ 0 ];
+						var prop     = CSST_TMD_Tiny_MCE[ setting ][ 1 ];
+						var value    = CSST_TMD_Tiny_MCE[ setting ][ 2 ];
 
-						rules += ' ' + selector + ' { ' + prop + ':' + value + ' } '; 
+					//}
 
-					}
+					rules += ' ' + selector + ' { ' + prop + ':' + value + ' } '; 
 
 				}
+
+				console.log( rules );
 
 				// Add our rules to the style tag.
 				jQuery( style ).text( rules );

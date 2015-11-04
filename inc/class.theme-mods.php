@@ -50,7 +50,7 @@ final class CSST_TMD_Mods {
 							'background-color' => array(
 								'type'                 => 'color',
 								'label'                => esc_html__( 'Body Background Color', 'csst_tmd' ),
-								'description'          => esc_html( 'The background color for the body element.', 'csst_tmd' ),
+								'description'          => esc_html( 'The background color for the body element, on landscape screens smaller than 800px.', 'csst_tmd' ),
 								'priority'             => 10,
 								'default'              => '#000000',
 								'sanitize_callback'    => 'sanitize_text_field',

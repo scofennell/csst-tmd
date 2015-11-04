@@ -37,7 +37,7 @@ final class CSST_TMD_Mods {
 
 				'title'       => esc_html__( 'Body', 'csst_tmd' ),
 				'description' => esc_html__( 'Theme Mods for the Page Body', 'csst_tmd' ),
-				'priority'    => 10,
+				'priority'    => 20,
 				'sections'    => array(
 
 					'colors' => array(

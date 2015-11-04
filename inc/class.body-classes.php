@@ -31,7 +31,7 @@ class CSST_TMD_Body_Classes {
 	public function body_class( $classes ) {
 		 
 		// Get the top-level settings panels.
-		$theme_mods_class   = CSST_TMD_Mods::get_instance();
+		$theme_mods_class   = CSST_TMD_Theme_Mods::get_instance();
 		$customizer_classes = $theme_mods_class -> get_classes();
 
 		$classes = array_merge( $classes, $customizer_classes );

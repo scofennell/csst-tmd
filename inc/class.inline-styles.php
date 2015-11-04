@@ -35,7 +35,7 @@ class CSST_TMD_Inline_Styles {
 		$out = '';
 
 		// Get the top-level settings panels.
-		$theme_mods_class = CSST_TMD_Mods::get_instance();
+		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
 		$panels     = $theme_mods_class -> get_panels();
 
 		$theme_mods = get_theme_mods();

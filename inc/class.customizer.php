@@ -32,7 +32,7 @@ class CSST_TMD_Customizer {
 	public function register( $wp_customize ) {
 		
 		// Get the top-level settings panels.
-		$theme_mods_class = CSST_TMD_Mods::get_instance();
+		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
 		$panels     = $theme_mods_class -> get_panels();
 
 		foreach ( $panels as $panel_id => $panel ) {
@@ -137,7 +137,7 @@ class CSST_TMD_Customizer {
 		$theme_mods = get_theme_mods();
 
 		// Get the top-level settings panels.
-		$theme_mods_class = CSST_TMD_Mods::get_instance();
+		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
 		$panels     = $theme_mods_class -> get_panels();
 
 		// For each panel...

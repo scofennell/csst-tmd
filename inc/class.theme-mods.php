@@ -6,7 +6,7 @@
  * @since CSS_Tricks_Theme_Mod_Demo 1.0
  */
 
-final class CSST_TMD_Mods {
+final class CSST_TMD_Theme_Mods {
 
 	// This will hold the first copy of this class that get's called.
 	static private $_instance = NULL;
@@ -20,7 +20,7 @@ final class CSST_TMD_Mods {
 	
 		// If it's the first grab, set the flag.	
 		if( self::$_instance == NULL ) {
-			self::$_instance = new CSST_TMD_Mods();
+			self::$_instance = new CSST_TMD_Theme_Mods();
 		}
 		
 		// Return the same copy of this class on each use.
@@ -133,7 +133,7 @@ public function get_classes() {
 		$classes = array();
 		
 		// Get the top-level settings panels.
-		$theme_mods_class = CSST_TMD_Mods::get_instance();
+		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
 		$panels     = $theme_mods_class -> get_panels();
 
 		$theme_mods = get_theme_mods();		

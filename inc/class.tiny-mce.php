@@ -35,7 +35,7 @@ class CSST_TMD_Tiny_MCE {
 	public function editor_class( $init_array ) {
 
 		// Grab all the classes, as a string.
-		$theme_mods_class = CSST_TMD_Mods::get_instance();
+		$theme_mods_class       = CSST_TMD_Mods::get_instance();
 		$customizer_classes     = $theme_mods_class -> get_classes();
 		$customizer_classes_str = implode( ' ', $customizer_classes );
 

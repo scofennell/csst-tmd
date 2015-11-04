@@ -23,6 +23,9 @@ class CSST_TMD_Body_Classes {
 		// Add some body classes based on the customizer.
 		add_filter( 'body_class', array( $this, 'body_class' ), 999 );
 
+		// Add some body classes based on the customizer.
+		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ), 999 );
+
 	}
 
 	public function body_class( $classes ) {
@@ -32,6 +35,20 @@ class CSST_TMD_Body_Classes {
 		$customizer_classes = $theme_mods_class -> get_classes();
 
 		$classes = array_merge( $classes, $customizer_classes );
+
+		return $classes;
+
+	}
+
+	public function admin_body_class( $classes ) {
+		 
+		// Get the top-level settings panels.
+		$theme_mods_class   = CSST_TMD_Mods::get_instance();
+		$customizer_classes = $theme_mods_class -> get_classes();
+
+		$customizer_classes = implode( ' ', $customizer_classes );
+
+		$classes = "$classes $customizer_classes";
 
 		return $classes;
 

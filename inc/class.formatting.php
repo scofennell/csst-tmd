@@ -28,7 +28,7 @@ final class CSST_TMD_Formatting {
 	
 	}
 
-	public function sanitize_linear_css( $string ) {
+	function sanitize_linear_css( $string ) {
 
 		$out = preg_replace( '/[^a-zA-Z0-9 +-_.()% ]/', '', $string );
 

@@ -36,69 +36,59 @@ class CSST_TMD_Inline_Styles {
 
 		// Get the top-level settings panels.
 		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
-		$panels     = $theme_mods_class -> get_panels();
+		$settings         = $theme_mods_class -> get_settings();
 
 		$theme_mods = get_theme_mods();
 
-		// For each panel...
-		foreach( $panels as $panel_id => $panel ) {
+		// For each setting...
+		foreach( $settings as $setting_id => $setting ) {
 
-			// For each section...
-			foreach( $panel['sections'] as $section_id => $section ) {
+			if( ! isset( $setting['css'] ) ) { continue; }
 
-				// For each setting...
-				foreach( $section['settings'] as $setting_id => $setting ) {
+			$css_rules = $setting['css'];
 
-					if( ! isset( $theme_mods[ "$panel_id-$section_id-$setting_id" ] ) ) { continue; }
+			foreach( $css_rules as $css_rule ) {
 
-					$css = $setting['css'];
+				$selector  = $css_rule['selector'];
+				$property  = $css_rule['property'];
+				$value     = $theme_mods[ $setting_id ];
 
-					foreach( $css as $css_rule ) {
+				$rule_string = "$selector { $property : $value ; }";
 
-						$selector  = $css_rule['selector'];
-						$property  = $css_rule['property'];
-						$value     = $theme_mods[ "$panel_id-$section_id-$setting_id" ];
+				if( isset( $css_rule['queries'] ) ) {
 
-						$rule = "$selector { $property : $value ; }";
+					$queries     = $css_rule['queries'];
+					$query_count = count( $queries );
+					$i = 0;
+					$query = '';
 
-						if( isset( $css_rule['queries'] ) ) {
+					foreach( $queries as $query_key => $query_value ) {
 
-							$queries = $css_rule['queries'];
-							$query_count = count( $queries );
-							$i = 0;
-							$query = '';
+						$i++;
 
-							foreach( $queries as $query_key => $query_value ) {
+						$query .= "( $query_key : $query_value )";
 
-								$i++;
-
-								$query .= "( $query_key : $query_value )";
-
-								if( $i < $query_count ) {
-									$query .= ' and ';
-								}
-
-							}
-
-							$rule = "
-							
-								@media $query {
-									$rule
-								}
-	
-							";
-
+						if( $i < $query_count ) {
+							$query .= ' and ';
 						}
-
-						$out .= $rule;
 
 					}
 
-				}			
+					$rule_string = "
+					
+						@media $query {
+							$rule_string
+						}
+
+					";
+
+				}
+
+				$out .= $rule_string;
 
 			}
 
-		}
+		}			
 
 		if( ! empty( $out ) ) {
 

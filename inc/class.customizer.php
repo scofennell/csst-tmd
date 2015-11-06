@@ -118,12 +118,20 @@ class CSST_TMD_Customizer {
 
 	}
 
+	/**
+	 * Remove stuff that WordPress adds to the customizer.
+	 *
+	 * param object $wp_customize An instance of WP_Customize_Manager.
+	 */
 	public function deregister( $wp_customize ) {
-		
+
+		// Remove the setting for blog description, AKA Site Tagline.
 		$wp_customize -> remove_control( 'blogdescription' );
 
+		// Remove the section for designating a static front page.
 		$wp_customize -> remove_section( 'static_front_page' );
-		
+
+		// Remove the panel for handling nav menus.
 		$wp_customize -> remove_panel( 'nav_menus' );			
 
 	}

@@ -43,7 +43,7 @@ class CSST_TMD_Body_Classes {
 	public function admin_body_class( $classes ) {
 		 
 		// Get the top-level settings panels.
-		$theme_mods_class   = CSST_TMD_Mods::get_instance();
+		$theme_mods_class   = CSST_TMD_Theme_Mods::get_instance();
 		$customizer_classes = $theme_mods_class -> get_classes();
 
 		$customizer_classes = implode( ' ', $customizer_classes );

@@ -215,12 +215,14 @@ final class CSST_TMD_Theme_Mods {
 				// For each setting...
 				foreach( $section['settings'] as $setting_id => $setting_definition ) {
 
+					$setting_key = "$panel_id-$section_id-$setting_id";
+
 					if( ! $include_empty ) {
-						if( ! isset( $theme_mods[ $setting_id ] ) ) { continue; }
-						if( empty( $theme_mods[ $setting_id ] ) ) { continue; }
+						if( ! isset( $theme_mods[ $setting_key ] ) ) { continue; }
+						if( empty( $theme_mods[ $setting_key ] ) ) { continue; }
 					}
 
-					$settings[ "$panel_id-$section_id-$setting_id" ] = $setting_definition;
+					$settings[ $setting_key ] = $setting_definition;
 
 				}			
 

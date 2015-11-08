@@ -136,56 +136,59 @@ class CSST_TMD_Customizer {
 
 	}
 
+	/**
+	 * Output some JS to do live preview for the settings that can use it.
+	 */
 	public function live_update() {
 		
+		// Are we on the customize preview?  If not, bail.
 		if( ! is_customize_preview() ) { return FALSE; }
 
+		// Will hold some inline javascript.
 		$out = '';
 
+		// Grab all the theme mod values.
 		$theme_mods = get_theme_mods();
 
-		// Get the top-level settings panels.
+		// Get the theme mod settings definitions.
 		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
-		$panels     = $theme_mods_class -> get_panels();
+		$settings         = $theme_mods_class -> get_settings();
 
-		// For each panel...
-		foreach( $panels as $panel_id => $panel ) {
+		// For each setting...
+		foreach( $settings as $setting_id => $setting ) {
 
-			// For each section...
-			foreach( $panel['sections'] as $section_id => $section ) {
+			// We're only doing live preview for settings of the 'color' type.
+			if( $setting['type'] != 'color' ) { continue; }
 
-				// For each setting...
-				foreach( $section['settings'] as $setting_id => $setting ) {
+			// Grab the css rules for this setting.
+			$css = $setting['css'];
 
-					if( $setting['type'] != 'color' ) { continue; }
+			// For each css rule for this setting...
+			foreach( $css as $css_rule ) {
 
-					if( ! isset( $theme_mods[ "$panel_id-$section_id-$setting_id" ] ) ) { continue; }
+				// The CSS selector.
+				$selector = $css_rule['selector'];
+				
+				// The CSS property.
+				$property = $css_rule['property'];
 
-					$css = $setting['css'];
+				// The value set in the customizer.
+				$value    = $theme_mods[ $setting_id ];
 
-					foreach( $css as $css_rule ) {
-
-						$selector = $css_rule['selector'];
-						$property = $css_rule['property'];
-						$value    = $theme_mods[ "$panel_id-$section_id-$setting_id" ];
-
-						//Update site title color in real time...
-						$out .= "
-							wp.customize( '$panel_id-$section_id-$setting_id', function( value ) {
-								value.bind( function( newval ) {
-							//		jQuery( '$selector' ).css( '$property', newval );
-								} );
-							} );
-						";
-
-					}
-
-				}
-
+				// Add the JS for this CSS rule.
+				$out .= "
+					wp.customize( '$setting_id', function( value ) {
+						value.bind( function( newval ) {
+							jQuery( '$selector' ).css( '$property', newval );
+						} );
+					} );
+				";
+		
 			}
-	
+
 		}
 
+		// Did we end up grabbing any CSS?  If so, wrap it in script tags.
 		if( ! empty( $out ) ) {
 
 			$class = __CLASS__;

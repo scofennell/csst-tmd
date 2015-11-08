@@ -173,7 +173,7 @@ class CSST_TMD_Customizer {
 						$out .= "
 							wp.customize( '$panel_id-$section_id-$setting_id', function( value ) {
 								value.bind( function( newval ) {
-									jQuery( '$selector' ).css( '$property', newval );
+							//		jQuery( '$selector' ).css( '$property', newval );
 								} );
 							} );
 						";

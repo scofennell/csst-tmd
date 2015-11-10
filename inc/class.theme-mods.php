@@ -45,126 +45,126 @@ final class CSST_TMD_Theme_Mods {
 				'priority'    => 20,
 				
 				// The body panel has a bunch of sections.
-				'sections'    => array(
-
-					// Define the colors section, which resides in the body panel.
-					'colors' => array(
-
-						'title'       => esc_html__( 'Colors', 'csst_tmd' ),
-						'description' => esc_html__( 'Colors for the Page Body', 'csst_tmd' ),
-						
-						// The order within this panel to output this section.
-						'priority'    => 10,
-						
-						// The colors section has a bunch of settings.
-						'settings'    => array(
-
-							// The setting ID for body background color.
-							'background-color' => array(
-
-								// The type of control for this setting in the customizer.
-								'type'                 => 'color',
-
-								// The header text for the control.
-								'label'                => esc_html__( 'Body Background Color', 'csst_tmd' ),
-
-								// The descriptive text for the control.
-								'description'          => esc_html( 'The background color for the body element, on landscape screens smaller than 800px.', 'csst_tmd' ),
-								
-								// The order within this section for outputting this control.
-								'priority'             => 10,
-
-								// The default value for this setting.
-								'default'              => '#000000',
-
-								// A callback function for sanitizing the input.
-								'sanitize_callback'    => 'sanitize_hex_color',
-								'sanitize_js_callback' => 'sanitize_hex_color',
-
-								// Do we want to use css from this setting in TinyMCE?
-								'tinymce_css'          => TRUE,
-
-								// Is this setting responsible for creating some css?
-								'css'                  => array(
-									
-									// This array amounts to one css rule.  We could do several more right here.
-									array(
-
-										// Here's the selector string.
-										'selector'  => 'body',
-
-										// Here's the css property.
-										'property'  => 'background-color',
-								
-										// Here are some media queries for this css.		
-										'queries'   => array(
-											'max-width'   => '800px',
-											'orientation' => 'landscape',
-										),
-			
-									// End this css rule.  We could start another one right here, perhaps to use this setting for a border-color on the body element, or whatever.					
-									),
-			
-								// End the list of css rules (yeah, there's just one right now).
-								),
-							
-							// End this setting.
-							),
-
-							'color' => array(
-								'type'                 => 'color',
-								'label'                => esc_html__( 'Body Text Color', 'csst_tmd' ),
-								'description'          => esc_html( 'The font color for the body element.', 'csst_tmd' ),
-								'priority'             => 20,
-								'default'              => '#e18728',
-								'sanitize_callback'    => 'sanitize_text_field',
-								'sanitize_js_callback' => 'sanitize_text_field',
-								'tinymce_css'          => TRUE,
-								'css'                  => array(
-									array(
-										'selector'  => 'body',
-										'property'  => 'color',
-									),
-								),
-							),
-
-						),
-
-					),
-
-					'layout' => array(
-
-						'title'       => esc_html__( 'Layout Options', 'csst_tmd' ),
-						'description' => esc_html__( 'Layout Options the Page Body', 'csst_tmd' ),
-						'priority'    => 10,
-						'settings'    => array(
-
-							'max-width' => array(
-								'type'                 => 'text',
-								'label'                => esc_html__( 'Body Max Width', 'csst_tmd' ),
-								'description'          => esc_html( 'The max-width for the body element.', 'csst_tmd' ),
-								'priority'             => 10,
-								'default'              => FALSE,
-								'sanitize_callback'    => array( $formatting, 'sanitize_linear_css' ),
-								'sanitize_js_callback' => array( $formatting, 'sanitize_linear_css' ),
-								'css'                  => array(
-									array(
-										'selector'  => 'body',
-										'property'  => 'max-width',
-										'queries'   => array(
-											'min-width' => '400px',
-										),
-									),
-								),
-							),
-
-						),
-
-					),
-		
-				),
+				'sections'    => array(),
 
 			),
+
+		);
+
+		// Define the colors section, which resides in the body panel.
+		$out['body']['sections']['colors'] = array(
+
+			'title'       => esc_html__( 'Colors', 'csst_tmd' ),
+			'description' => esc_html__( 'Colors for the Page Body', 'csst_tmd' ),
+			
+			// The order within this panel to output this section.
+			'priority'    => 10,
+			
+			// The colors section has a bunch of settings.
+			'settings'    => array(),
+
+		);
+
+		// The setting ID for body background color.
+		$out['body']['sections']['colors']['settings']['background-color'] = array(
+
+			// The type of control for this setting in the customizer.
+			'type'                 => 'color',
+
+			// The header text for the control.
+			'label'                => esc_html__( 'Body Background Color', 'csst_tmd' ),
+
+			// The descriptive text for the control.
+			'description'          => esc_html( 'The background color for the body element, on landscape screens smaller than 800px.', 'csst_tmd' ),
+			
+			// The order within this section for outputting this control.
+			'priority'             => 10,
+
+			// The default value for this setting.
+			'default'              => '#000000',
+
+			// A callback function for sanitizing the input.
+			'sanitize_callback'    => 'sanitize_hex_color',
+			'sanitize_js_callback' => 'sanitize_hex_color',
+
+			// Do we want to use css from this setting in TinyMCE?
+			'tinymce_css'          => TRUE,
+
+			// Is this setting responsible for creating some css?
+			'css'                  => array(
+				
+				// This array amounts to one css rule.  We could do several more right here.
+				array(
+
+					// Here's the selector string.
+					'selector'  => 'body',
+
+					// Here's the css property.
+					'property'  => 'background-color',
+			
+					// Here are some media queries for this css.		
+					'queries'   => array(
+						'max-width'   => '800px',
+						'orientation' => 'landscape',
+					),
+
+				// End this css rule.  We could start another one right here, perhaps to use this setting for a border-color on the body element, or whatever.					
+				),
+
+			// End the list of css rules (yeah, there's just one right now).
+			),
+		
+		// End this setting.
+		);
+
+		// The setting ID for body background color.
+		$out['body']['sections']['colors']['settings']['color'] = array(
+
+			'type'                 => 'color',
+			'label'                => esc_html__( 'Body Text Color', 'csst_tmd' ),
+			'description'          => esc_html( 'The font color for the body element.', 'csst_tmd' ),
+			'priority'             => 20,
+			'default'              => '#e18728',
+			'sanitize_callback'    => 'sanitize_text_field',
+			'sanitize_js_callback' => 'sanitize_text_field',
+			'tinymce_css'          => TRUE,
+			'css'                  => array(
+				array(
+					'selector'  => 'body',
+					'property'  => 'color',
+				),
+			),
+
+		);
+
+		$out['body']['sections']['layout'] = array(
+
+			'title'       => esc_html__( 'Layout Options', 'csst_tmd' ),
+			'description' => esc_html__( 'Layout Options the Page Body', 'csst_tmd' ),
+			'priority'    => 10,
+			'settings'    => array(),
+
+		);	
+
+		$out['body']['sections']['layout']['settings']['max-width'] = array(
+
+			'type'                 => 'text',
+			'label'                => esc_html__( 'Body Max Width', 'csst_tmd' ),
+			'description'          => esc_html( 'The max-width for the body element.', 'csst_tmd' ),
+			'priority'             => 10,
+			'default'              => FALSE,
+			'sanitize_callback'    => array( $formatting, 'sanitize_linear_css' ),
+			'sanitize_js_callback' => array( $formatting, 'sanitize_linear_css' ),
+			'css'                  => array(
+				array(
+					'selector'  => 'body',
+					'property'  => 'max-width',
+					'queries'   => array(
+						'min-width' => '400px',
+					),
+				),
+			),
+
 		);
 
 		return $out;
@@ -177,15 +177,11 @@ final class CSST_TMD_Theme_Mods {
 		
 		$settings = $this -> get_settings();
 
-		$theme_mods = get_theme_mods();
-
-		//wp_die( var_dump( $settings ) );
-
 		// For each setting...
 		foreach( $settings as $setting_id => $setting ) {
 
 			// Grab the theme mod.
-			$value = $theme_mods[ $setting_id ];
+			$value = get_theme_mod( $setting_id );
 
 			// We made it!  Grab a body class.
 			$class = sanitize_html_class( CSST_TMD . "-$setting_id-$value" );
@@ -204,8 +200,6 @@ final class CSST_TMD_Theme_Mods {
 
 		$panels = $this -> get_panels();
 
-		$theme_mods = get_theme_mods();
-
 		// For each panel...
 		foreach( $panels as $panel_id => $panel ) {
 
@@ -218,8 +212,8 @@ final class CSST_TMD_Theme_Mods {
 					$setting_key = "$panel_id-$section_id-$setting_id";
 
 					if( ! $include_empty ) {
-						if( ! isset( $theme_mods[ $setting_key ] ) ) { continue; }
-						if( empty( $theme_mods[ $setting_key ] ) ) { continue; }
+						$value = get_theme_mod( $setting_key );
+						if( empty( $value ) ) { continue; }
 					}
 
 					$settings[ $setting_key ] = $setting_definition;

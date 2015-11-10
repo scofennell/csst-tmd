@@ -11,7 +11,7 @@
 function csst_tmd_inline_styles_init() {
 	new CSST_TMD_Inline_Styles();
 }
-add_action( 'init' , 'csst_tmd_inline_styles_init', 1 );
+add_action( 'init' , 'csst_tmd_inline_styles_init' );
 
 /**
  * Our wrapper class for the WP theme customizer.
@@ -26,19 +26,32 @@ class CSST_TMD_Inline_Styles {
 	}
 
 	public function inline_styles() {
-		echo $this -> get_inline_styles();
+		echo $this -> get_wrapped_inline_styles();
 	}
 
 
+	public function get_wrapped_inline_styles() {		
+
+		$out = $this -> get_inline_styles();
+
+		if( ! empty( $out ) ) {
+
+			$class = __CLASS__;
+
+			$out = "<!-- Added by $class --><style id='$class'>$out</style>";
+		}
+
+		return $out;
+
+	}
+
 	public function get_inline_styles() {
-		
+
 		$out = '';
 
 		// Get the top-level settings panels.
 		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
 		$settings         = $theme_mods_class -> get_settings();
-
-		$theme_mods = get_theme_mods();
 
 		// For each setting...
 		foreach( $settings as $setting_id => $setting ) {
@@ -51,7 +64,7 @@ class CSST_TMD_Inline_Styles {
 
 				$selector  = $css_rule['selector'];
 				$property  = $css_rule['property'];
-				$value     = $theme_mods[ $setting_id ];
+				$value     = get_theme_mod( $setting_id );
 
 				$rule_string = "$selector { $property : $value ; }";
 
@@ -74,13 +87,7 @@ class CSST_TMD_Inline_Styles {
 
 					}
 
-					$rule_string = "
-					
-						@media $query {
-							$rule_string
-						}
-
-					";
+					$rule_string = " @media $query { $rule_string } ";
 
 				}
 
@@ -88,15 +95,8 @@ class CSST_TMD_Inline_Styles {
 
 			}
 
-		}			
-
-		if( ! empty( $out ) ) {
-
-			$class = __CLASS__;
-
-			$out = "<!-- Added by $class --><style>$out</style>";
-		}
-
+		}	
+	
 		return $out;
 
 	}

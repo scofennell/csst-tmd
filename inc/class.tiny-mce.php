@@ -108,49 +108,32 @@ class CSST_TMD_Tiny_MCE {
 
 		// Get the top-level settings panels.
 		$theme_mods_class = CSST_TMD_Mods::get_instance();
-		$panels     = $theme_mods_class -> get_panels();
+		$settings         = $theme_mods_class -> get_settings();
 
-		$theme_mods = get_theme_mods();	
+		// For each setting...
+		foreach( $settings as $setting_id => $setting ) {
 
-		// For each panel...
-		foreach( $panels as $panel_id => $panel ) {
+			if( ! isset( $setting['tinymce_css'] ) ) { continue; }
 
-			// For each section...
-			foreach( $panel['sections'] as $section_id => $section ) {
+			$css = $setting['css'];
 
-				// For each setting...
-				foreach( $section['settings'] as $setting_id => $setting ) {
+			foreach( $css as $css_rule ) {
 
-					if( ! isset( $setting['tinymce_css'] ) ) { continue; }
-
-					if( ! isset( $theme_mods[ "$panel_id-$section_id-$setting_id" ] ) ) { continue; }
-		
-					// No need to send empty styles.
-					if( empty( $theme_mods[ "$panel_id-$section_id-$setting_id" ] ) ) { continue; }
-
-					$css = $setting['css'];
-
-					foreach( $css as $css_rule ) {
-
-						$selector = $css_rule['selector'];
-						$property = $css_rule['property'];
-						$value    = $theme_mods[ "$panel_id-$section_id-$setting_id" ];
+				$selector = $css_rule['selector'];
+				$property = $css_rule['property'];
+				$value    = get_theme_mod( $setting_id );
 	
-						// Add it to the array of rules for this setting.
-						$setting_rules = array( $selector, $property, $value );
+				// Add it to the array of rules for this setting.
+				$setting_rules = array( $selector, $property, $value );
 
-						// Add all of the rules for this setting to the output.
-						$out[]= $setting_rules;
-
-					}
-
-				}
+				// Add all of the rules for this setting to the output.
+				$out[]= $setting_rules;
 
 			}
 
-		}
+			return $out;
 
-		return $out;
+		}
 
 	}
 

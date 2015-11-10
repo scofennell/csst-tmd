@@ -1,6 +1,9 @@
 <?php
 
 /**
+ * A class for adding/removing panels, sections, and settings to/from the
+ * customizer.
+ * 
  * @package WordPress
  * @subpackage CSS_Tricks_Theme_Mod_Demo
  * @since CSS_Tricks_Theme_Mod_Demo 1.0
@@ -11,9 +14,6 @@ function csst_tmd_customizer_init() {
 }
 add_action( 'init' , 'csst_tmd_customizer_init' );
 
-/**
- * Our wrapper class for the WP theme customizer.
- */
 class CSST_TMD_Customizer {
 
 	public function __construct() {
@@ -26,12 +26,20 @@ class CSST_TMD_Customizer {
 
 	}
 
+	/**
+	 * Add our panels, sections, and settings to the customizer.
+	 * 
+	 * @param  object $wp_customize An instance of the WP_Customize_Manager class.
+	 */
 	public function register( $wp_customize ) {
 		
-		// Get the top-level settings panels.
-		$theme_mods_class = CSST_TMD_Theme_Mods::get_instance();
-		$panels     = $theme_mods_class -> get_panels();
+		// Fire up our theme mods class.
+		$theme_mods_class = new CSST_TMD_Theme_Mods;
 
+		// Grab our panels, sections, and settings.
+		$panels = $theme_mods_class -> get_panels();
+
+		// For each panel...
 		foreach ( $panels as $panel_id => $panel ) {
 
 			// Add this panel to the UI.
@@ -68,11 +76,6 @@ class CSST_TMD_Customizer {
 						'sanitize_js_callback' => $setting['sanitize_js_callback'],
 					);
 
-					// Some settings get live preview.
-					if( $setting['type'] == 'color' ) {
-						$setting_args['transport']= 'postMessage';
-					}
-
 					// Register the setting.
 					$wp_customize -> add_setting(
 						$panel_id . '-' . $section_id . '-' . $setting_id,
@@ -87,14 +90,18 @@ class CSST_TMD_Customizer {
 						'description' => $setting['description'],
 					);
 
+					// Settings of the type 'color' get a special type of control.
 					if( $setting['type'] == 'color' ) {
 
 						$wp_customize -> add_control(
+							
+							// This ships with WordPress.  It's a color picker.
 							new WP_Customize_Color_Control(
 								$wp_customize,
 								$panel_id . '-' . $section_id . '-' . $setting_id,
 								$control_args
 							)
+						
 						);
 
 					// Else, WordPress will use a default control.
@@ -107,10 +114,13 @@ class CSST_TMD_Customizer {
 
 					}
 
+				// End this setting.
 				}
 
+			// End this section.
 			}
 
+		// End this panel.
 		}
 
 	}

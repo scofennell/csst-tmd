@@ -18,25 +18,29 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * Table of Contents
  *
  * 1.0. Frame
+ * 2.0. Site Icon
  */
 
 /**
  * 1.0. Frame
  */
-body {
-	margin: 0 auto;
-	color: #000;
-	background: #fff;
-}
+	body {
+		margin: 0 auto;
+		color: #000;
+		background: #fff;
+	}
 
-.csst_tmd-page {
-	background: rgba( 0, 0, 0, .15 );
-	padding: 1em 2em;
-	text-align: center;
-	border: .25em solid #000;
-}
+	.csst_tmd-page {
+		background: rgba( 0, 0, 0, .15 );
+		padding: 1em 2em;
+		text-align: center;
+		border: .25em solid #000;
+	}
 
-img {
-	max-width: 100%;
-	height: auto;
-}
+/**
+ * 2.0 Site Icon
+ */
+	img {
+		max-width: 100%;
+		height: auto;
+	}

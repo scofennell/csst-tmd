@@ -6,8 +6,9 @@
  * @subpackage CSS_Tricks_Theme_Mod_Demo
  * @since CSS_Tricks_Theme_Mod_Demo 1.0
  */
+?>
 
-get_header(); ?>
+<?php get_header(); ?>
 
 	<?php
 

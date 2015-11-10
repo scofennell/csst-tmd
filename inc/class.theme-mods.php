@@ -1,60 +1,54 @@
 <?php
 
 /**
+ * A class for defining our theme mods, and for retrieving
+ * them in various forms.
+ * 
  * @package WordPress
  * @subpackage CSS_Tricks_Theme_Mod_Demo
  * @since CSS_Tricks_Theme_Mod_Demo 1.0
  */
 
-final class CSST_TMD_Theme_Mods {
+class CSST_TMD_Theme_Mods {
 
-	// This will hold the first copy of this class that get's called.
-	static private $_instance = NULL;
-
-	// Don't let any other code un-singleton this class.
-	private function __construct() {}
-	private function __clone() {}
-
-	// This is the entry point for this class.
-	static function get_instance() {
-	
-		// If it's the first grab, set the flag.	
-		if( self::$_instance == NULL ) {
-			self::$_instance = new CSST_TMD_Theme_Mods();
-		}
-		
-		// Return the same copy of this class on each use.
-		return self::$_instance;
-	
-	}
-
+	/**
+	 * Define our panels, sections, and settings.
+	 * 
+	 * @return array An array of panels, containing sections, containing settings.
+	 */
 	function get_panels() {
 
+		// A handy class for formatting strings.
 		$formatting = CSST_TMD_Formatting::get_instance();
 
 		// Start an annoyingly huge array to define our panels, sections, and settings.
-		$out = array(
+		$out = array();
 
-			// Define the body panel.
-			'body' => array(
+		// Define the body panel.
+		$body = array(
 
-				'title'       => esc_html__( 'Body', 'csst_tmd' ),
-				'description' => esc_html__( 'Theme Mods for the Page Body', 'csst_tmd' ),
+			// The title for this panel in the customizer UI.
+			'title'       => esc_html__( 'Body', 'csst_tmd' ),
+			
+			// The description for this panel in the customizer UI.
+			'description' => esc_html__( 'Theme Mods for the Page Body', 'csst_tmd' ),
 				
-				// The order within the customizer to output this panel.
-				'priority'    => 20,
+			// The order within the customizer to output this panel.
+			'priority'    => 20,
 				
-				// The body panel has a bunch of sections.
-				'sections'    => array(),
-
-			),
+			// The body panel has a bunch of sections.
+			'sections'    => array(),
 
 		);
+		$out['body'] = $body;
 
 		// Define the colors section, which resides in the body panel.
 		$out['body']['sections']['colors'] = array(
 
+			// The title for this section in the customizer UI.
 			'title'       => esc_html__( 'Colors', 'csst_tmd' ),
+
+			// The description for this section in the customizer UI.
 			'description' => esc_html__( 'Colors for the Page Body', 'csst_tmd' ),
 			
 			// The order within this panel to output this section.
@@ -65,8 +59,8 @@ final class CSST_TMD_Theme_Mods {
 
 		);
 
-		// The setting ID for body background color.
-		$out['body']['sections']['colors']['settings']['background-color'] = array(
+		// The setting for body background color.
+		$out['body']['sections']['colors']['settings']['background_color'] = array(
 
 			// The type of control for this setting in the customizer.
 			'type'                 => 'color',
@@ -88,7 +82,7 @@ final class CSST_TMD_Theme_Mods {
 			'sanitize_js_callback' => 'sanitize_hex_color',
 
 			// Do we want to use css from this setting in TinyMCE?
-			'tinymce_css'          => TRUE,
+			'tinymce_css'          => FALSE,
 
 			// Is this setting responsible for creating some css?
 			'css'                  => array(
@@ -117,7 +111,7 @@ final class CSST_TMD_Theme_Mods {
 		// End this setting.
 		);
 
-		// The setting ID for body background color.
+		// The setting for body text color.
 		$out['body']['sections']['colors']['settings']['color'] = array(
 
 			'type'                 => 'color',
@@ -137,16 +131,18 @@ final class CSST_TMD_Theme_Mods {
 
 		);
 
+		// A new section within the body panel, called "layout".
 		$out['body']['sections']['layout'] = array(
 
 			'title'       => esc_html__( 'Layout Options', 'csst_tmd' ),
-			'description' => esc_html__( 'Layout Options the Page Body', 'csst_tmd' ),
-			'priority'    => 10,
+			'description' => esc_html__( 'Layout Options for the Page Body', 'csst_tmd' ),
+			'priority'    => 20,
 			'settings'    => array(),
 
 		);	
 
-		$out['body']['sections']['layout']['settings']['max-width'] = array(
+		// A setting for max-width for the body.
+		$out['body']['sections']['layout']['settings']['max_width'] = array(
 
 			'type'                 => 'text',
 			'label'                => esc_html__( 'Body Max Width', 'csst_tmd' ),
@@ -171,33 +167,21 @@ final class CSST_TMD_Theme_Mods {
 
 	}
 
-	function get_classes() {
+	/**
+	 * Get all of our customizer settings and their values.
+	 * 
+	 * This is a helpful function because it does the work of looping through our
+	 * massive array that defines all the panels and sections.
+	 * 
+	 * @param  boolean $include_empty Whether to include settings whose values are empty.
+	 * @return array   An array of settings and their values.
+	 */
+	function get_settings( $include_empty = FALSE, $exclude_if_empty = array(), $caller = 'dunno' ) {
 
-		$classes = array();
-		
-		$settings = $this -> get_settings();
+		// Will hold all of our customizer settings.
+		$out = array();
 
-		// For each setting...
-		foreach( $settings as $setting_id => $setting ) {
-
-			// Grab the theme mod.
-			$value = get_theme_mod( $setting_id );
-
-			// We made it!  Grab a body class.
-			$class = sanitize_html_class( CSST_TMD . "-$setting_id-$value" );
-		
-			$classes[]= $class;
-
-		}
-
-		return $classes;
-
-	}
-
-	function get_settings( $include_empty = FALSE ) {
-
-		$settings = array();
-
+		// Start by grabbing the panels.  We'll loop through them to find our settings.
 		$panels = $this -> get_panels();
 
 		// For each panel...
@@ -209,14 +193,35 @@ final class CSST_TMD_Theme_Mods {
 				// For each setting...
 				foreach( $section['settings'] as $setting_id => $setting_definition ) {
 
-					$setting_key = "$panel_id-$section_id-$setting_id";
+					$skip = FALSE;
+					foreach( $exclude_if_empty as $exclude ) {
 
-					if( ! $include_empty ) {
-						$value = get_theme_mod( $setting_key );
-						if( empty( $value ) ) { continue; }
+						if( ! isset( $setting_definition[ $exclude ] ) ) { $skip = TRUE; }
+						if( empty( $setting_definition[  $exclude  ] ) ) { $skip = TRUE; }
+					
 					}
 
-					$settings[ $setting_key ] = $setting_definition;
+					if( $skip ) { continue; }
+
+					// I like hyphens between pieces.
+					$setting_key = "$panel_id-$section_id-$setting_id";
+
+					// Grab the value for this setting.
+					$value = get_theme_mod( $setting_key );
+
+					// Read the value into this array member.
+					$setting_definition['value'] = $value;
+
+					// Do we want to exclude empty settings?
+					if( ! $include_empty ) {
+						
+						// If so, now's the time to bail.
+						if( empty( $value ) ) { continue; }
+					
+					}
+
+					// Add this setting to the output.
+					$out[ $setting_key ] = $setting_definition;
 
 				}			
 
@@ -224,7 +229,7 @@ final class CSST_TMD_Theme_Mods {
 
 		}
 
-		return $settings;
+		return $out;
 
 	}
 

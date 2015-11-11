@@ -23,11 +23,14 @@
  				// Find the <head> of tinyMCE.
 				var head = jQuery( doc ).find( 'head' );
 
-				// Let's log this to see what's up.
-				console.log( CSST_TMD_Tiny_MCE );
+				/**
+				 * Elsewhere in the theme, we passed this to our JS via localize_script,
+				 * but let's just log it to make sure it made the trip okay.
+				 */
+				console.log( csst_tmd );
 			
 				// Add our style tag to the head.
-				jQuery( CSST_TMD_Tiny_MCE ).appendTo( head );
+				jQuery( csst_tmd ).appendTo( head );
 
 			});
 		},

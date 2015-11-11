@@ -170,13 +170,17 @@ class CSST_TMD_Theme_Mods {
 	/**
 	 * Get all of our customizer settings and their values.
 	 * 
-	 * This is a helpful function because it does the work of looping through our
-	 * massive array that defines all the panels and sections.
+	 * This is a helpful function because it does the work of looping through
+	 * our massive array that defines all the panels and sections.
 	 * 
-	 * @param  boolean $include_empty Whether to include settings whose values are empty.
-	 * @return array   An array of settings and their values.
+	 * @param  array $exclude_if_empty An array of strings we can use to limit
+	 *                the settings we're grabbing.  A setting must possess each
+	 *                member of this array to be included.  For example,
+	 *                settings that pertain to tinymce css must have the
+	 *                'tinymce_css' property.
+	 * @return array An array of settings and their values.
 	 */
-	function get_settings( $include_empty = FALSE, $exclude_if_empty = array(), $caller = 'dunno' ) {
+	function get_settings( $exclude_if_empty = array() ) {
 
 		// Will hold all of our customizer settings.
 		$out = array();
@@ -193,14 +197,21 @@ class CSST_TMD_Theme_Mods {
 				// For each setting...
 				foreach( $section['settings'] as $setting_id => $setting_definition ) {
 
+					// Fow now, let's assume we're not skipping this setting.
 					$skip = FALSE;
+
+					// For each member of the exclude array...
 					foreach( $exclude_if_empty as $exclude ) {
 
+						// If this setting does not have this property, skip it.
 						if( ! isset( $setting_definition[ $exclude ] ) ) { $skip = TRUE; }
+
+						// If this property is empty in this setting, skip it.
 						if( empty( $setting_definition[  $exclude  ] ) ) { $skip = TRUE; }
 					
 					}
 
+					// Is this setting missing any of the required fields?  If so, skip it.
 					if( $skip ) { continue; }
 
 					// I like hyphens between pieces.
@@ -209,16 +220,11 @@ class CSST_TMD_Theme_Mods {
 					// Grab the value for this setting.
 					$value = get_theme_mod( $setting_key );
 
+					// Don't bother with settings whose values are empty.
+					if( empty( $value ) ) { continue; }
+
 					// Read the value into this array member.
 					$setting_definition['value'] = $value;
-
-					// Do we want to exclude empty settings?
-					if( ! $include_empty ) {
-						
-						// If so, now's the time to bail.
-						if( empty( $value ) ) { continue; }
-					
-					}
 
 					// Add this setting to the output.
 					$out[ $setting_key ] = $setting_definition;

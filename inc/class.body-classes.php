@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A class for affecting body classes.
+ * A class for adding our theme mods as body classes.
  *
  * @package WordPress
  * @subpackage CSS_Tricks_Theme_Mod_Demo

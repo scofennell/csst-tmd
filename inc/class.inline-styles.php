@@ -15,97 +15,128 @@ add_action( 'init' , 'csst_tmd_inline_styles_init' );
 
 class CSST_TMD_Inline_Styles {
 
-	public $output_for = FALSE;
-
 	public function __construct( $output_for = 'front_end' ) {
 
-		$this -> output_for = $output_for;
-
-		// Inject our styles.
-		if( $this -> output_for == 'front_end' ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'front_end_styles' ) );
-		}
-
-	}
-
-	public function front_end_styles() {
-
-		if( is_admin() ) { return FALSE; } 
-
-		$data = $this -> get_inline_styles( FALSE );
-
-		wp_add_inline_style( CSST_TMD, $data );
+		// Add our styles to the front end of the blog.
+		add_action( 'wp_enqueue_scripts', array( $this, 'front_end_styles' ) );
+		
+		// Expose our customization array to our JS in wp_admin.
+		add_action( 'admin_enqueue_scripts', array( $this, 'localize' ), 999 );
+	
 
 	}
 
 	/**
-	 * Echo our styles.
+	 * Output a bundle of JS to localize all our customizer styles.
 	 */
-	public function inline_styles() {
+	public function localize() {
 
-		// Grab the styles, wrapped in style tags.
-		$out = $this -> get_inline_styles();
+		// Grab the syles that pertain to tinymce, wrapped in a style tag.
+		$out = $this -> get_inline_styles( 'wrapped', 'tinymce' );
 
-		echo $out;
+		// Send the style rules to our JS.
+		wp_localize_script( 'jquery', CSST_TMD, $out );
+
+	}
+
+	/**
+	 * Append our customizer styles to the <head> whenever our main stylesheet is called.
+	 */
+	public function front_end_styles() {
+
+		// Grab the styles that pertain to the front end, but don't wrap them in a style tag.
+		$styles = $this -> get_inline_styles( 'unwrapped', 'front_end' );
+
+		// Attach our customizer styles to our stylesheet.  When it gets called, so do our customizer styles.
+		wp_add_inline_style( CSST_TMD, $styles );
 
 	}
 
 	/**
 	 * Loop through our theme mods and build a string of CSS rules.
 	 * 
-	 * @return [type] [description]
+	 * @param  string $wrapped    Whether or not to wrap the styles in a style tag. Expects 'wrapped' or 'unwrapped'.
+	 * @param  string $output_for The context for these styles. Expects 'front_end' or 'tinymce'.
+	 * @return string CSS, either wrapped in a style tag, or not.
 	 */
-	public function get_inline_styles( $wrap = TRUE ) {
+	public function get_inline_styles( $wrapped = 'wrapped', $output_for = 'front_end' ) {
 
+		// This will hold all of our customizer styles.
 		$out = '';
 
-		$exclude_if_empty = array( 'css' );
+		// If we are outputting for the front end...
+		if( $output_for == 'front_end' ) {
 		
-		if( $this -> output_for == 'tinymce' ) {
+			// Skip any settings that don't pertain to css.
+			$exclude_if_empty = array( 'css' );
+		
+		// Else if we are outputting for tinymce...
+		} elseif( $output_for == 'tinymce' ) {
+		
+			// ... Skip any settings that don't pertain to tinymce.
 			$exclude_if_empty = array( 'tinymce_css' );
+		
 		}
 
-		// Get the top-level settings panels.
+		// Fire up our theme mods class.
 		$theme_mods_class = new CSST_TMD_Theme_Mods;
-		$settings         = $theme_mods_class -> get_settings( FALSE, $exclude_if_empty );
+
+		// Get the theme mods, but skip theme mods according to $exclude_if_empty. 
+		$settings = $theme_mods_class -> get_settings( $exclude_if_empty );
 
 		// For each setting...
 		foreach( $settings as $setting_id => $setting ) {
 
+			// Grab the css for this setting.
 			$css_rules = $setting['css'];
 
-			$value     = $setting['value'];
+			// Grab the current value for this setting.
+			$value = $setting['value'];
 
+			// For each css rule...
 			foreach( $css_rules as $css_rule ) {
 
-				$selector  = $css_rule['selector'];
-				$property  = $css_rule['property'];
+				// The css selector.
+				$selector = $css_rule['selector'];
+				
+				// The css property.
+				$property = $css_rule['property'];
 
+				// Build this into a CSS rule.
 				$rule_string = "$selector { $property : $value ; }";
 
+				// Does this css rule have meai queries?
 				if( isset( $css_rule['queries'] ) ) {
 
-					$queries     = $css_rule['queries'];
+					$queries = $css_rule['queries'];
+					
+					// How many media queries?
 					$query_count = count( $queries );
-					$i = 0;
+					
+					// Will hold the media query string.
 					$query = '';
-
+					
+					$i = 0;
 					foreach( $queries as $query_key => $query_value ) {
 
 						$i++;
 
+						// Add the media query key and value.
 						$query .= "( $query_key : $query_value )";
 
+						// If this isn't the last query, add the "and" operator.
 						if( $i < $query_count ) {
 							$query .= ' and ';
 						}
 
 					}
 
+					// Wrap the rule string in the media query.
 					$rule_string = " @media $query { $rule_string } ";
 
 				}
 
+				// Add the rule, which might be wrapped in a media query, to the output.
 				$out .= $rule_string;
 
 			}
@@ -117,17 +148,14 @@ class CSST_TMD_Inline_Styles {
 
 		$class = __CLASS__;
 
-		if( $wrap ) {
-
-			// Grab our class to add a helpful debug comment.
+		// Grab our class to add a helpful debug comment.
+		if( $wrapped == 'wrapped' ) {
 			
 			$out = "<!-- Added by $class --><style>$out</style>";
 
-
-		} else {
+		} elseif( $wrapped == 'unwrapped' ) {
 
 			$out = "/* Added by $class */ $out";
-
 		}
 
 		return $out;

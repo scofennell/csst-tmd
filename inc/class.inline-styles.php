@@ -105,7 +105,7 @@ class CSST_TMD_Inline_Styles {
 				// Build this into a CSS rule.
 				$rule_string = "$selector { $property : $value ; }";
 
-				// Does this css rule have meai queries?
+				// Does this css rule have media queries?
 				if( isset( $css_rule['queries'] ) ) {
 
 					$queries = $css_rule['queries'];

@@ -28,16 +28,16 @@ class CSST_TMD_Theme_Mods {
 		$body = array(
 
 			// The title for this panel in the customizer UI.
-			'title'       => esc_html__( 'Body', 'csst_tmd' ),
+			'title' => esc_html__( 'Body', 'csst_tmd' ),
 			
 			// The description for this panel in the customizer UI.
 			'description' => esc_html__( 'Theme Mods for the Page Body', 'csst_tmd' ),
 				
 			// The order within the customizer to output this panel.
-			'priority'    => 20,
+			'priority' => 20,
 				
 			// The body panel has a bunch of sections.
-			'sections'    => array(),
+			'sections' => array(),
 
 		);
 		$out['body'] = $body;
@@ -46,16 +46,16 @@ class CSST_TMD_Theme_Mods {
 		$out['body']['sections']['colors'] = array(
 
 			// The title for this section in the customizer UI.
-			'title'       => esc_html__( 'Colors', 'csst_tmd' ),
+			'title' => esc_html__( 'Colors', 'csst_tmd' ),
 
 			// The description for this section in the customizer UI.
 			'description' => esc_html__( 'Colors for the Page Body', 'csst_tmd' ),
 			
 			// The order within this panel to output this section.
-			'priority'    => 10,
+			'priority' => 10,
 			
 			// The colors section has a bunch of settings.
-			'settings'    => array(),
+			'settings' => array(),
 
 		);
 
@@ -63,41 +63,41 @@ class CSST_TMD_Theme_Mods {
 		$out['body']['sections']['colors']['settings']['background_color'] = array(
 
 			// The type of control for this setting in the customizer.
-			'type'                 => 'color',
+			'type' => 'color',
 
 			// The header text for the control.
-			'label'                => esc_html__( 'Body Background Color', 'csst_tmd' ),
+			'label' => esc_html__( 'Body Background Color', 'csst_tmd' ),
 
 			// The descriptive text for the control.
-			'description'          => esc_html( 'The background color for the body element, on landscape screens smaller than 800px.', 'csst_tmd' ),
+			'description' => esc_html( 'The background color for the body element, on landscape screens smaller than 800px.', 'csst_tmd' ),
 			
 			// The order within this section for outputting this control.
-			'priority'             => 10,
+			'priority' => 10,
 
 			// The default value for this setting.
-			'default'              => '#000000',
+			'default' => '#000000',
 
 			// A callback function for sanitizing the input.
 			'sanitize_callback'    => 'sanitize_hex_color',
 			'sanitize_js_callback' => 'sanitize_hex_color',
 
 			// Do we want to use css from this setting in TinyMCE?
-			'tinymce_css'          => FALSE,
+			'tinymce_css' => FALSE,
 
 			// Is this setting responsible for creating some css?
-			'css'                  => array(
+			'css' => array(
 				
 				// This array amounts to one css rule.  We could do several more right here.
 				array(
 
 					// Here's the selector string.
-					'selector'  => 'body',
+					'selector' => 'body',
 
 					// Here's the css property.
-					'property'  => 'background-color',
+					'property' => 'background-color',
 			
 					// Here are some media queries for this css.		
-					'queries'   => array(
+					'queries' => array(
 						'max-width'   => '800px',
 						'orientation' => 'landscape',
 					),

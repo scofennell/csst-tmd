@@ -2,8 +2,8 @@
  * A TinyMCE plugin for adding customizer styles to the post editor.
  *
  * @package WordPress
- * @subpackage lxb-apple-fritter
- * @since lxb-apple-fritter 0.1
+ * @subpackage CSS_Tricks_Theme_Mod_Demo
+ * @since CSS_Tricks_Theme_Mod_Demo 1.0
  */
 
 ( function() {
